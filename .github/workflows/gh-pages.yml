@@ -1,4 +1,5 @@
 
+
 name: Deploy site to GitHub Pages
 
 on:
@@ -6,12 +7,21 @@ on:
     branches:
       - main
 
+# Grant the workflow explicit permissions to write repository contents
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Persist the token so subsequent git push uses the action's token
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
